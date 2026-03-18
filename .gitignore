@@ -1,0 +1,24 @@
+# ── Python ──────────────────────────────────────
+__pycache__/
+*.py[cod]
+*.pyo
+*.egg-info/
+dist/
+build/
+
+# ── Environnement virtuel ─────────────────────
+.venv/
+
+# ── IDE ────────────────────────────────────────
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# ── PDF générés ───────────────────────────────
+generated_devis/*.pdf
+
+# ── pytest / coverage ─────────────────────────
+.pytest_cache/
+htmlcov/
+.coverage

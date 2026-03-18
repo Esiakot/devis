@@ -1,25 +1,32 @@
 # -*- coding: utf-8 -*-
-"""
-Générateur PDF professionnel pour devis
-Design moderne avec tableaux et mise en page soignée
-"""
+# ──────────────────────────────────────────────────────────────────────────────
+# src/utils/pdf_generator.py — Générateur PDF de devis
+# ──────────────────────────────────────────────────────────────────────────────
+# Produit des devis au format PDF avec une mise en page professionnelle.
+# Utilise la bibliothèque fpdf pour construire un document comprenant un
+# en-tête avec logo, les informations client, le détail des produits et
+# options sous forme de tableaux, les totaux HT/TVA/TTC, les conditions
+# générales de vente et un pied de page avec les coordonnées de l'entreprise.
+# ──────────────────────────────────────────────────────────────────────────────
 
 from fpdf import FPDF
 import os
 import datetime
 
+from src.constants import ENTREPRISE, TVA_RATE, DEVIS_VALIDITE_JOURS, CONDITIONS_GENERALES, PDF_COLORS
+
 
 class DevisPDF(FPDF):
     """PDF personnalisé avec en-tête et pied de page professionnels."""
     
-    # Couleurs entreprise
-    BLEU_FONCE = (41, 128, 185)
-    BLEU_CLAIR = (52, 152, 219)
-    GRIS_FONCE = (44, 62, 80)
-    GRIS_CLAIR = (236, 240, 241)
-    BLANC = (255, 255, 255)
-    ROUGE = (231, 76, 60)
-    VERT = (39, 174, 96)
+    # Couleurs entreprise (centralisées dans src.constants.pdf)
+    BLEU_FONCE = PDF_COLORS['bleu_fonce']
+    BLEU_CLAIR = PDF_COLORS['bleu_clair']
+    GRIS_FONCE = PDF_COLORS['gris_fonce']
+    GRIS_CLAIR = PDF_COLORS['gris_clair']
+    BLANC = PDF_COLORS['blanc']
+    ROUGE = PDF_COLORS['rouge']
+    VERT = PDF_COLORS['vert']
     
     def __init__(self, numero_affaire, version, client_nom="", base_path=None):
         super().__init__()
@@ -58,15 +65,13 @@ class DevisPDF(FPDF):
         self.set_font("Arial", "", 8)
         self.set_text_color(*self.GRIS_FONCE)
         self.set_xy(120, 10)
-        self.multi_cell(80, 4, 
-            "Votre Entreprise SAS\n"
-            "Zone Industrielle\n"
-            "1234 Avenue de l'Innovation\n"
-            "75000 PARIS, France\n"
-            "Tel: +33 1 XX XX XX XX\n"
-            "Email: contact@entreprise.fr\n"
-            "SIRET: XXX XXX XXX XXXXX\n"
-            "TVA: FRXX XXXXXXXXX", align="R")
+        self.multi_cell(80, 4,
+            f"{ENTREPRISE['nom']}\n"
+            f"{ENTREPRISE['adresse']}\n"
+            f"Tel: {ENTREPRISE['telephone']}\n"
+            f"Email: {ENTREPRISE['email']}\n"
+            f"SIRET: {ENTREPRISE['siret']}\n"
+            f"TVA: {ENTREPRISE['tva_intra']}", align="R")
         
         # Ligne de séparation
         self.set_draw_color(*self.BLEU_FONCE)
@@ -84,8 +89,8 @@ class DevisPDF(FPDF):
         self.set_font("Arial", "I", 7)
         self.set_text_color(*self.GRIS_FONCE)
         self.ln(3)
-        self.cell(0, 4, "Votre Entreprise SAS - Capital XXX XXX EUR - RCS Paris XXX XXX XXX", align="C", ln=True)
-        self.cell(0, 4, f"Page {self.page_no()}/{{nb}} | Devis {self.numero_affaire}-V{self.version} | Validite: 30 jours", align="C")
+        self.cell(0, 4, f"{ENTREPRISE['nom']} - Capital {ENTREPRISE['capital']} EUR - RCS {ENTREPRISE['rcs']}", align="C", ln=True)
+        self.cell(0, 4, f"Page {self.page_no()}/{{nb}} | Devis {self.numero_affaire}-V{self.version} | Validite: {DEVIS_VALIDITE_JOURS} jours", align="C")
         
     def titre_devis(self):
         """Bloc titre du devis."""
@@ -139,7 +144,7 @@ class DevisPDF(FPDF):
         self.set_text_color(*self.GRIS_FONCE)
         self.cell(0, 5, f"Date: {date_str}", ln=True)
         self.set_x(112)
-        self.cell(0, 5, f"Valide jusqu'au: {(datetime.datetime.now() + datetime.timedelta(days=30)).strftime('%d/%m/%Y')}")
+        self.cell(0, 5, f"Valide jusqu'au: {(datetime.datetime.now() + datetime.timedelta(days=DEVIS_VALIDITE_JOURS)).strftime('%d/%m/%Y')}")
         
         self.set_y(y_start + 35)
         
@@ -314,7 +319,7 @@ class DevisPDF(FPDF):
         
     def bloc_total(self, total_ht):
         """Bloc récapitulatif avec total HT, TVA, TTC."""
-        tva = total_ht * 0.20
+        tva = total_ht * TVA_RATE
         total_ttc = total_ht + tva
         
         # Position à droite
@@ -338,7 +343,7 @@ class DevisPDF(FPDF):
         
         # TVA
         self.set_x(x_start + 5)
-        self.cell(50, 7, "TVA (20%):", align="L")
+        self.cell(50, 7, f"TVA ({int(TVA_RATE * 100)}%):", align="L")
         self.cell(30, 7, f"{tva:.2f} EUR", align="R", ln=True)
         
         # Ligne
@@ -368,14 +373,7 @@ class DevisPDF(FPDF):
         self.set_font("Arial", "", 8)
         self.set_text_color(*self.GRIS_FONCE)
         
-        conditions = [
-            "- Validite du devis: 30 jours a compter de la date d'emission",
-            "- Delai de livraison: A definir selon disponibilite (generalement 8-12 semaines)",
-            "- Conditions de paiement: 30% a la commande, 70% a la livraison",
-            "- Garantie: 2 ans pieces et main d'oeuvre",
-            "- Installation et formation: Sur devis separé",
-            "- Les prix s'entendent depart usine, hors frais de transport et d'installation"
-        ]
+        conditions = CONDITIONS_GENERALES
         
         for cond in conditions:
             self.cell(0, 4, cond, ln=True)
