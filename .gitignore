@@ -1,4 +1,4 @@
-# ── Python ──────────────────────────────────────
+﻿# ── Python ──────────────────────────────────────
 __pycache__/
 *.py[cod]
 *.pyo
@@ -20,6 +20,8 @@ data/devis_database.db
 
 # ── PDF générés ───────────────────────────────
 generated_devis/*.pdf
+
+bao.py
 
 # ── pytest / coverage ─────────────────────────
 .pytest_cache/
