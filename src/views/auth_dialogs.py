@@ -106,13 +106,13 @@ class PasswordStrengthLabel(QLabel):
     def update_strength(self, password: str):
         ok, msg = valider_force_mot_de_passe(password)
         if ok:
-            self.setText("✅ Mot de passe valide")
+            self.setText("Mot de passe valide")
             self.setStyleSheet("color: #27ae60; font-size: 11px;")
         elif not password:
             self.setText(self.RULES)
             self.setStyleSheet("color: #95a5a6; font-size: 11px;")
         else:
-            self.setText(f"⚠️ {msg}")
+            self.setText(f"{msg}")
             self.setStyleSheet("color: #f39c12; font-size: 11px;")
 
 
@@ -129,19 +129,19 @@ class InscriptionClientDialog(QDialog):
         self.client_id = None
         self.client_info = {}
 
-        self.setWindowTitle("📋 Espace Client")
+        self.setWindowTitle("Espace Client")
         self.setMinimumWidth(550)
 
         layout = QVBoxLayout()
         self.setLayout(layout)
 
-        lbl = QLabel("📋 Espace Client — Configurateur de Devis")
+        lbl = QLabel("Espace Client — Configurateur de Devis")
         lbl.setStyleSheet(S.TITLE_CLIENT)
         layout.addWidget(lbl)
 
         self.tabs = QTabWidget()
-        self.tabs.addTab(self._build_login_tab(), "🔑 Connexion")
-        self.tabs.addTab(self._build_register_tab(), "📝 Nouveau compte")
+        self.tabs.addTab(self._build_login_tab(), "Connexion")
+        self.tabs.addTab(self._build_register_tab(), "Nouveau compte")
         layout.addWidget(self.tabs)
 
         btn_cancel = QPushButton("Annuler")
@@ -163,7 +163,7 @@ class InscriptionClientDialog(QDialog):
         self.login_password.setPlaceholderText("Mot de passe")
         form.addRow("Mot de passe:", self.login_password)
 
-        btn = QPushButton("🔑 Se connecter")
+        btn = QPushButton("Se connecter")
         btn.setStyleSheet(S.BTN_SUCCESS + S.BTN_ACTION)
         btn.clicked.connect(self._login)
         form.addRow(btn)
@@ -180,7 +180,7 @@ class InscriptionClientDialog(QDialog):
         tab.setLayout(layout)
 
         # --- Compte ---
-        group_a = QGroupBox("🔐 Compte")
+        group_a = QGroupBox("Compte")
         form_a = QFormLayout()
         group_a.setLayout(form_a)
 
@@ -205,7 +205,7 @@ class InscriptionClientDialog(QDialog):
         layout.addWidget(group_a)
 
         # --- Entreprise ---
-        group_e = QGroupBox("🏢 Entreprise")
+        group_e = QGroupBox("Entreprise")
         form_e = QFormLayout()
         group_e.setLayout(form_e)
 
@@ -268,7 +268,7 @@ class InscriptionClientDialog(QDialog):
     def _verifier_siret(self):
         siret_brut = self.reg_siret.text().strip()
         if not siret_brut:
-            self.lbl_siret_status.setText("⚠️ Veuillez saisir un numéro SIRET.")
+            self.lbl_siret_status.setText("Veuillez saisir un numéro SIRET.")
             self.lbl_siret_status.setStyleSheet("color: #f39c12;")
             return
 
@@ -277,28 +277,28 @@ class InscriptionClientDialog(QDialog):
         QApplication.restoreOverrideCursor()
 
         if not result["valide"]:
-            self.lbl_siret_status.setText(f"❌ {result['erreur']}")
+            self.lbl_siret_status.setText(f"{result['erreur']}")
             self.lbl_siret_status.setStyleSheet("color: #e74c3c;")
             return
 
         if self.controller.client_siret_existe(result["siret"]):
             self.lbl_siret_status.setText(
-                "⚠️ Ce SIRET est déjà associé à un compte. Utilisez la connexion.")
+                "Ce SIRET est déjà associé à un compte. Utilisez la connexion.")
             self.lbl_siret_status.setStyleSheet("color: #f39c12;")
             return
 
         if result.get("nom_entreprise"):
             self.lbl_siret_status.setText(
-                f"✅ SIRET valide — Entreprise : {result['nom_entreprise']}")
+                f"SIRET valide — Entreprise : {result['nom_entreprise']}")
             self.lbl_siret_status.setStyleSheet("color: #27ae60;")
             if not self.reg_societe.text().strip():
                 self.reg_societe.setText(result["nom_entreprise"])
         elif result.get("verification_en_ligne") is None:
             self.lbl_siret_status.setText(
-                "✅ SIRET valide (vérification en ligne indisponible)")
+                "SIRET valide (vérification en ligne indisponible)")
             self.lbl_siret_status.setStyleSheet("color: #f39c12;")
         else:
-            self.lbl_siret_status.setText("✅ SIRET valide")
+            self.lbl_siret_status.setText("SIRET valide")
             self.lbl_siret_status.setStyleSheet("color: #27ae60;")
 
     # ─── Connexion ────────────────────────────────────────────────
@@ -425,19 +425,19 @@ class ConnexionVendeurDialog(QDialog):
         self.controller = controller
         self.vendeur_info = None
 
-        self.setWindowTitle("🔐 Espace Vendeur")
+        self.setWindowTitle("Espace Vendeur")
         self.setMinimumWidth(450)
 
         layout = QVBoxLayout()
         self.setLayout(layout)
 
-        lbl = QLabel("🔐 Authentification Vendeur")
+        lbl = QLabel("Authentification Vendeur")
         lbl.setStyleSheet(S.TITLE_VENDEUR)
         layout.addWidget(lbl)
 
         self.tabs = QTabWidget()
-        self.tabs.addTab(self._build_login_tab(), "🔑 Connexion")
-        self.tabs.addTab(self._build_register_tab(), "📝 Nouveau compte")
+        self.tabs.addTab(self._build_login_tab(), "Connexion")
+        self.tabs.addTab(self._build_register_tab(), "Nouveau compte")
         layout.addWidget(self.tabs)
 
         btn_cancel = QPushButton("Annuler")
