@@ -16,6 +16,7 @@ class AuthRepository:
     # ─── Comptes vendeur ──────────────────────────────────────────
     def creer_vendeur(self, username, password, nom="", prenom="", email=""):
         """Crée un compte vendeur avec mot de passe haché. Returns vendeur_id ou None."""
+        username = username.lower()
         conn = self._conn()
         cursor = conn.cursor()
         try:
@@ -26,17 +27,18 @@ class AuthRepository:
             """, (username, password_hash, nom, prenom, email))
             vendeur_id = cursor.lastrowid
             conn.commit()
-            print(f"✅ Compte vendeur '{username}' créé.")
+            print(f"Compte vendeur '{username}' créé.")
             return vendeur_id
         except Exception as e:
             conn.rollback()
-            print(f"❌ Erreur création vendeur : {e}")
+            print(f"Erreur création vendeur : {e}")
             return None
         finally:
             conn.close()
 
     def authentifier_vendeur(self, username, password):
         """Authentifie un vendeur. Returns dict info ou None si échec."""
+        username = username.lower()
         conn = self._conn()
         cursor = conn.cursor()
         cursor.execute("""
@@ -57,6 +59,7 @@ class AuthRepository:
 
     def username_existe(self, username):
         """Vérifie si un nom d'utilisateur vendeur existe déjà."""
+        username = username.lower()
         conn = self._conn()
         cursor = conn.cursor()
         cursor.execute("SELECT 1 FROM vendeur WHERE username = ?", (username,))
@@ -69,6 +72,7 @@ class AuthRepository:
                      contact_nom, contact_prenom, contact_service,
                      contact_email, contact_telephone, indicatif_tel):
         """Crée un compte client avec mot de passe haché. Returns client_id ou None."""
+        username = username.lower()
         conn = self._conn()
         cursor = conn.cursor()
         try:
@@ -83,17 +87,18 @@ class AuthRepository:
                   contact_email, contact_telephone, indicatif_tel))
             client_id = cursor.lastrowid
             conn.commit()
-            print(f"✅ Compte client '{username}' créé.")
+            print(f"Compte client '{username}' créé.")
             return client_id
         except Exception as e:
             conn.rollback()
-            print(f"❌ Erreur création client : {e}")
+            print(f"Erreur création client : {e}")
             return None
         finally:
             conn.close()
 
     def authentifier_client(self, username, password):
         """Authentifie un client. Returns dict info ou None si échec."""
+        username = username.lower()
         conn = self._conn()
         cursor = conn.cursor()
         cursor.execute("""
@@ -121,6 +126,7 @@ class AuthRepository:
 
     def client_username_existe(self, username):
         """Vérifie si un nom d'utilisateur client existe déjà."""
+        username = username.lower()
         conn = self._conn()
         cursor = conn.cursor()
         cursor.execute("SELECT 1 FROM client WHERE username = ?", (username,))

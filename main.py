@@ -49,13 +49,13 @@ class LauncherWindow(QWidget):
 
     def __init__(self):
         super().__init__()
-        self.setWindowTitle("🚀 Configurateur de Devis - Lanceur")
+        self.setWindowTitle("Configurateur de Devis - Lanceur")
         self.setFixedSize(400, 300)
 
         layout = QVBoxLayout()
         self.setLayout(layout)
 
-        lbl_title = QLabel("🔷 Configurateur de Devis")
+        lbl_title = QLabel("Configurateur de Devis")
         lbl_title.setStyleSheet(S.LAUNCHER_TITLE)
         lbl_title.setAlignment(Qt.AlignmentFlag.AlignCenter)
         layout.addWidget(lbl_title)
@@ -67,19 +67,19 @@ class LauncherWindow(QWidget):
 
         layout.addSpacing(20)
 
-        btn_both = QPushButton("🚀 Lancer Client + Vendeur")
+        btn_both = QPushButton("Lancer Client + Vendeur")
         btn_both.setStyleSheet(S.LAUNCHER_BTN_MAIN)
         btn_both.clicked.connect(self._lancer_les_deux)
         layout.addWidget(btn_both)
 
         layout.addSpacing(10)
 
-        btn_client = QPushButton("🛒 Interface CLIENT")
+        btn_client = QPushButton("Interface CLIENT")
         btn_client.setStyleSheet(S.LAUNCHER_BTN_CLIENT)
         btn_client.clicked.connect(lambda: self._lancer("client_app.py"))
         layout.addWidget(btn_client)
 
-        btn_vendeur = QPushButton("🏭 Interface VENDEUR")
+        btn_vendeur = QPushButton("Interface VENDEUR")
         btn_vendeur.setStyleSheet(S.LAUNCHER_BTN_VENDEUR)
         btn_vendeur.clicked.connect(lambda: self._lancer("vendeur_app.py"))
         layout.addWidget(btn_vendeur)

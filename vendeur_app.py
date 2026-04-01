@@ -33,7 +33,7 @@ class VendeurWindow(BaseAffaireWindow):
         self.vendeur_info = vendeur_info
         self.AUTEUR = f"{vendeur_info['prenom']} {vendeur_info['nom']}"
 
-        self.setWindowTitle("🏭 VENDEUR - Configurateur de Devis")
+        self.setWindowTitle("VENDEUR - Configurateur de Devis")
         self.setGeometry(600, 50, 1100, 750)
         self.current_affaire_numero = ""
 
@@ -45,18 +45,18 @@ class VendeurWindow(BaseAffaireWindow):
         # ─── Barre du haut : info compte + déconnexion ───────────
         top_bar = QHBoxLayout()
 
-        header = QLabel("🏭 INTERFACE VENDEUR")
+        header = QLabel("INTERFACE VENDEUR")
         header.setStyleSheet(S.HEADER_VENDEUR)
         top_bar.addWidget(header)
 
         top_bar.addStretch()
 
         info_lbl = QLabel(
-            f"👤 {vendeur_info['prenom']} {vendeur_info['nom']}")
+            f"{vendeur_info['prenom']} {vendeur_info['nom']}")
         info_lbl.setStyleSheet("color: #b2bec3; font-size: 12px;")
         top_bar.addWidget(info_lbl)
 
-        btn_logout = QPushButton("🚪 Déconnexion")
+        btn_logout = QPushButton("Déconnexion")
         btn_logout.setStyleSheet(
             "background-color: #636e72; color: white; padding: 6px 12px; border-radius: 4px;")
         btn_logout.clicked.connect(self._deconnexion)
@@ -67,8 +67,8 @@ class VendeurWindow(BaseAffaireWindow):
         self.tabs = QTabWidget()
         ml.addWidget(self.tabs)
 
-        self.tabs.addTab(self._build_tab_affaires(), "📁 Toutes les Affaires")
-        self.tabs.addTab(self._build_tab_detail(), "📋 Détail & Réponse")
+        self.tabs.addTab(self._build_tab_affaires(), "Toutes les Affaires")
+        self.tabs.addTab(self._build_tab_detail(), "Détail & Réponse")
 
         self.charger_affaires()
         self._start_auto_refresh()
@@ -93,13 +93,13 @@ class VendeurWindow(BaseAffaireWindow):
         tab = QWidget()
         layout = QVBoxLayout()
         tab.setLayout(layout)
-        layout.addWidget(QLabel("📁 Liste des affaires clients:"))
+        layout.addWidget(QLabel("Liste des affaires clients:"))
 
         self.table_affaires = self._create_affaires_table(
             ["N° Affaire", "Client", "Titre", "Date", "Nb Devis"])
         layout.addWidget(self.table_affaires)
 
-        btn = QPushButton("📂 Ouvrir l'affaire")
+        btn = QPushButton("Ouvrir l'affaire")
         btn.setStyleSheet(S.BTN_DANGER + S.BTN_ACTION)
         btn.clicked.connect(self._ouvrir_affaire)
         layout.addWidget(btn)
@@ -118,16 +118,16 @@ class VendeurWindow(BaseAffaireWindow):
         hl.addStretch()
         self.lbl_statut = QLabel("")
         hl.addWidget(self.lbl_statut)
-        self.btn_cloturer = QPushButton("🏁 Clôturer l'affaire")
+        self.btn_cloturer = QPushButton("Clôturer l'affaire")
         self.btn_cloturer.setStyleSheet(S.BTN_CLOTURE)
         self.btn_cloturer.clicked.connect(self._cloturer_affaire)
         hl.addWidget(self.btn_cloturer)
         layout.addLayout(hl)
 
         splitter, _ = self._build_detail_splitter([
-            ("👁️ Voir détail", None, self._voir_detail),
-            ("📝 Répondre au client", S.BTN_DANGER, self._repondre_client),
-            ("📄 Générer PDF", S.BTN_PRIMARY, self._generer_pdf),
+            ("Voir détail", None, self._voir_detail),
+            ("Répondre au client", S.BTN_DANGER, self._repondre_client),
+            ("Générer PDF", S.BTN_PRIMARY, self._generer_pdf),
         ])
         layout.addWidget(splitter)
         return tab
@@ -140,29 +140,29 @@ class VendeurWindow(BaseAffaireWindow):
     def _on_affaire_opened(self, extras):
         self.current_affaire_numero = extras['numero']
         self.lbl_affaire.setText(
-            f"📁 {extras['numero']} - {self.current_affaire_client} - {extras['titre']}")
+            f"{extras['numero']} - {self.current_affaire_client} - {extras['titre']}")
         self._update_statut_label(extras['statut'])
 
     # ─── Statut ───────────────────────────────────────────────────
     def _update_statut_label(self, statut):
         styles = {
-            'en_cours': ('🔄 En cours', '#3498db'),
-            'gagne': ('✅ GAGNÉ', '#27ae60'),
-            'perdu': ('❌ PERDU', '#e74c3c'),
-            'annule': ('⚪ Annulé', '#95a5a6'),
+            'en_cours': ('En cours', '#3498db'),
+            'gagne': ('GAGNÉ', '#27ae60'),
+            'perdu': ('PERDU', '#e74c3c'),
+            'annule': ('Annulé', '#95a5a6'),
         }
-        txt, color = styles.get(statut, ('🔄 En cours', '#3498db'))
+        txt, color = styles.get(statut, ('En cours', '#3498db'))
         self.lbl_statut.setText(txt)
         self.lbl_statut.setStyleSheet(S.badge(color))
 
         if statut in ('gagne', 'perdu', 'annule'):
             self.btn_cloturer.setEnabled(False)
             self.btn_cloturer.setStyleSheet(S.BTN_DISABLED)
-            self.btn_cloturer.setText("🔒 Affaire clôturée")
+            self.btn_cloturer.setText("Affaire clôturée")
         else:
             self.btn_cloturer.setEnabled(True)
             self.btn_cloturer.setStyleSheet(S.BTN_CLOTURE)
-            self.btn_cloturer.setText("🏁 Clôturer l'affaire")
+            self.btn_cloturer.setText("Clôturer l'affaire")
 
     # ─── Actions ──────────────────────────────────────────────────
     def _cloturer_affaire(self):

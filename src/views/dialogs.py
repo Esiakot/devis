@@ -27,13 +27,13 @@ class DetailDevisDialog(QDialog):
         version = info[2] if info else "?"
         numero = info[5] if info else "?"
 
-        self.setWindowTitle(f"📋 Détail - {numero}-{version}")
+        self.setWindowTitle(f"Détail - {numero}-{version}")
         self.setMinimumSize(900, 600)
 
         layout = QVBoxLayout()
         self.setLayout(layout)
 
-        lbl = QLabel(f"📋 Devis {numero} - Version {version}")
+        lbl = QLabel(f"Devis {numero} - Version {version}")
         lbl.setStyleSheet(S.TITLE)
         layout.addWidget(lbl)
 
@@ -43,7 +43,7 @@ class DetailDevisDialog(QDialog):
                            ("Accepté", STATUT_COLORS['accepte']),
                            ("Refusé", STATUT_COLORS['refuse']),
                            ("Contre-proposition", STATUT_COLORS['contre_proposition'])]:
-            l = QLabel(f"● {txt}")
+            l = QLabel(f"{txt}")
             l.setStyleSheet(S.bold(color))
             legende.addWidget(l)
         legende.addStretch()
@@ -73,7 +73,7 @@ class DetailDevisDialog(QDialog):
             frame_layout = QVBoxLayout()
             frame.setLayout(frame_layout)
 
-            lbl = QLabel(f"🔷 {prod_data['nom']} x{prod_data['quantite']} - {prod_data['prix_unitaire']} €/u")
+            lbl = QLabel(f"Produit: {prod_data['nom']} x{prod_data['quantite']} - {prod_data['prix_unitaire']} €/u")
             lbl.setStyleSheet(S.LBL_PRODUCT)
             frame_layout.addWidget(lbl)
 
@@ -88,7 +88,7 @@ class DetailDevisDialog(QDialog):
                 table.setRowCount(len(all_opts))
 
                 for row, (t, opt) in enumerate(all_opts):
-                    nom = opt['nom'] if t == 'std' else f"🔧 {opt['description']}"
+                    nom = opt['nom'] if t == 'std' else f"[Perso] {opt['description']}"
                     prix = f"{opt['prix']} €" if t == 'std' else f"{opt.get('prix_demande', '-')} €"
 
                     table.setItem(row, 0, QTableWidgetItem(nom))

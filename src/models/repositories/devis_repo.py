@@ -79,11 +79,11 @@ class DevisRepository:
                     """, (prod_devis_id, desc, prix, poids))
 
             conn.commit()
-            print(f"✅ Devis V{version} créé pour l'affaire.")
+            print(f"Devis V{version} créé pour l'affaire.")
             return devis_id, version
         except Exception as e:
             conn.rollback()
-            print(f"❌ Erreur création devis : {e}")
+            print(f"Erreur création devis : {e}")
             return None, None
         finally:
             conn.close()
@@ -201,7 +201,7 @@ class DevisRepository:
             return True
         except Exception as e:
             conn.rollback()
-            print(f"❌ Erreur réponse option : {e}")
+            print(f"Erreur réponse option : {e}")
             return False
         finally:
             conn.close()
@@ -219,7 +219,7 @@ class DevisRepository:
             return True
         except Exception as e:
             conn.rollback()
-            print(f"❌ Erreur réponse option perso : {e}")
+            print(f"Erreur réponse option perso : {e}")
             return False
         finally:
             conn.close()
@@ -238,7 +238,7 @@ class DevisRepository:
             return True
         except Exception as e:
             conn.rollback()
-            print(f"❌ Erreur réponse acheteur option standard : {e}")
+            print(f"Erreur réponse acheteur option standard : {e}")
             return False
         finally:
             conn.close()
@@ -256,7 +256,7 @@ class DevisRepository:
             return True
         except Exception as e:
             conn.rollback()
-            print(f"❌ Erreur réponse acheteur option perso : {e}")
+            print(f"Erreur réponse acheteur option perso : {e}")
             return False
         finally:
             conn.close()
@@ -303,11 +303,11 @@ class DevisRepository:
             self._copier_produits_devis(cursor, produits_data, new_devis_id)
 
             conn.commit()
-            print(f"✅ Nouvelle version V{new_version} créée. Total: {new_total}€")
+            print(f"Nouvelle version V{new_version} créée. Total: {new_total}€")
             return new_devis_id, new_version
         except Exception as e:
             conn.rollback()
-            print(f"❌ Erreur création nouvelle version : {e}")
+            print(f"Erreur création nouvelle version : {e}")
             return None, None
         finally:
             conn.close()

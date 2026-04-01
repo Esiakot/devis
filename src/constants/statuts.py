@@ -16,16 +16,16 @@ STATUT_COLORS = {
 }
 
 STATUT_EMOJIS = {
-    'en_attente': '⏳',
-    'accepte': '✅',
-    'refuse': '❌',
-    'contre_proposition': '💬',
+    'en_attente': '',
+    'accepte': '',
+    'refuse': '',
+    'contre_proposition': '',
 }
 
 STATUT_CLOTURE_LABELS = {
-    'gagne': '✅ GAGNÉE',
-    'perdu': '❌ PERDUE',
-    'annule': '🚫 ANNULÉE',
+    'gagne': 'GAGNÉE',
+    'perdu': 'PERDUE',
+    'annule': 'ANNULÉE',
 }
 
 # --- Couleurs des rôles (commentaires, badges) ---
@@ -37,7 +37,7 @@ ROLE_COLORS = {
 
 def get_statut_emoji(statut: str) -> str:
     """Retourne l'emoji correspondant à un statut d'option."""
-    return STATUT_EMOJIS.get(statut, '⏳')
+    return STATUT_EMOJIS.get(statut, '')
 
 
 def get_statut_color(statut: str) -> str:

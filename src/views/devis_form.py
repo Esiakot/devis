@@ -38,7 +38,7 @@ class DevisFormWidget(QWidget):
         scroll.setWidget(self._container)
         layout.addWidget(scroll)
 
-        btn_add = QPushButton("➕ Ajouter un Produit")
+        btn_add = QPushButton("Ajouter un Produit")
         btn_add.setStyleSheet(S.BTN_ACCENT + S.BTN_ACTION)
         btn_add.clicked.connect(self._ajouter_produit)
         layout.addWidget(btn_add)
@@ -47,7 +47,7 @@ class DevisFormWidget(QWidget):
         self.lbl_total.setStyleSheet(S.LBL_TOTAL)
         layout.addWidget(self.lbl_total)
 
-        group = QGroupBox("💬 Commentaire / Notes pour le vendeur")
+        group = QGroupBox("Commentaire / Notes pour le vendeur")
         gl = QVBoxLayout()
         group.setLayout(gl)
         self.input_commentaire = QTextEdit()
@@ -57,7 +57,7 @@ class DevisFormWidget(QWidget):
         gl.addWidget(self.input_commentaire)
         layout.addWidget(group)
 
-        btn_submit = QPushButton("📤 Soumettre le devis")
+        btn_submit = QPushButton("Soumettre le devis")
         btn_submit.setStyleSheet(S.BTN_SUBMIT)
         btn_submit.clicked.connect(self._soumettre)
         layout.addWidget(btn_submit)
@@ -75,7 +75,7 @@ class DevisFormWidget(QWidget):
         widget.deleteLater()
         for i, w in enumerate(self._produit_widgets):
             w.index = i
-            w.lbl_title.setText(f"🔷 Produit #{i + 1}")
+            w.lbl_title.setText(f"Produit #{i + 1}")
         self._recalculer_total()
 
     def _recalculer_total(self):

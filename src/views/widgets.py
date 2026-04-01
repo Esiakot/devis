@@ -35,12 +35,12 @@ class ProduitConfigWidget(QFrame):
 
         # Header
         header = QHBoxLayout()
-        self.lbl_title = QLabel(f"🔷 Produit #{index + 1}")
+        self.lbl_title = QLabel(f"Produit #{index + 1}")
         self.lbl_title.setStyleSheet(S.LBL_BOLD_BLUE)
         header.addWidget(self.lbl_title)
         header.addStretch()
 
-        self.btn_remove = QPushButton("❌")
+        self.btn_remove = QPushButton("X")
         self.btn_remove.setFixedSize(30, 30)
         self.btn_remove.setStyleSheet(S.BTN_REMOVE)
         self.btn_remove.clicked.connect(lambda: self.on_remove(self))
@@ -66,7 +66,7 @@ class ProduitConfigWidget(QFrame):
         # Barre de poids
         poids_layout = QVBoxLayout()
         poids_header = QHBoxLayout()
-        self.lbl_poids = QLabel("⚖️ Charge: 0 / 0 kg (0%)")
+        self.lbl_poids = QLabel("Charge: 0 / 0 kg (0%)")
         self.lbl_poids.setStyleSheet(S.LBL_BOLD)
         poids_header.addWidget(self.lbl_poids)
         poids_header.addStretch()
@@ -88,11 +88,11 @@ class ProduitConfigWidget(QFrame):
         layout.addWidget(self.group_options)
 
         # Options personnalisées
-        self.group_options_perso = QGroupBox("🔧 Options personnalisées (demandes spéciales)")
+        self.group_options_perso = QGroupBox("Options personnalisées (demandes spéciales)")
         self.layout_options_perso = QVBoxLayout()
         self.group_options_perso.setLayout(self.layout_options_perso)
 
-        btn_add_perso = QPushButton("➕ Ajouter une demande spéciale")
+        btn_add_perso = QPushButton("Ajouter une demande spéciale")
         btn_add_perso.setStyleSheet(S.BTN_ADD_PERSO)
         btn_add_perso.clicked.connect(self.ajouter_option_perso)
         self.layout_options_perso.addWidget(btn_add_perso)
@@ -154,7 +154,7 @@ class ProduitConfigWidget(QFrame):
         spin_prix.valueChanged.connect(self.on_change)
         row.addWidget(spin_prix)
 
-        btn_del = QPushButton("🗑️")
+        btn_del = QPushButton("X")
         btn_del.setFixedSize(30, 30)
         btn_del.clicked.connect(lambda: self.supprimer_option_perso(frame))
         row.addWidget(btn_del)
@@ -190,7 +190,7 @@ class ProduitConfigWidget(QFrame):
             poids = opt[3] if len(opt) > 3 and opt[3] else 0
             universelle = opt[4] if len(opt) > 4 else 0
             poids_txt = f" | {poids}kg" if poids > 0 else ""
-            prefix = "⭐ " if universelle else ""
+            prefix = "[Univ.] " if universelle else ""
             cb = QCheckBox(f"{prefix}{opt[1]} (+{opt[2]}€{poids_txt})")
             cb.setProperty("option_data", opt)
             cb.stateChanged.connect(self.on_option_change)
@@ -273,17 +273,17 @@ class ProduitConfigWidget(QFrame):
         poids_actuel = self.calculer_poids_total()
         pourcentage = (poids_actuel / charge_max * 100) if charge_max > 0 else 0
 
-        self.lbl_poids.setText(f"⚖️ Charge: {poids_actuel:.1f} / {limite:.1f} kg ({pourcentage:.0f}%)")
+        self.lbl_poids.setText(f"Charge: {poids_actuel:.1f} / {limite:.1f} kg ({pourcentage:.0f}%)")
         self.progress_poids.setValue(min(int(pourcentage), 100))
 
         pct_limit = POIDS_LIMITE_POURCENTAGE * 100
         if pourcentage > pct_limit:
             self.progress_poids.setStyleSheet(S.PROGRESS_DANGER)
-            self.lbl_poids_warning.setText("⚠️ LIMITE DÉPASSÉE!")
+            self.lbl_poids_warning.setText("LIMITE DÉPASSÉE!")
             self.lbl_poids_warning.setStyleSheet(S.bold("#e74c3c"))
         elif pourcentage > 70:
             self.progress_poids.setStyleSheet(S.PROGRESS_WARN)
-            self.lbl_poids_warning.setText("⚠️ Attention")
+            self.lbl_poids_warning.setText("Attention")
             self.lbl_poids_warning.setStyleSheet(S.bold("#f39c12"))
         else:
             self.progress_poids.setStyleSheet(S.PROGRESS_OK)

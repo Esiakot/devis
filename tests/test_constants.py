@@ -44,12 +44,12 @@ class TestConstantsStatuts:
             assert statut in STATUT_EMOJIS
 
     def test_get_statut_emoji_connu(self):
-        assert get_statut_emoji('accepte') == '✅'
-        assert get_statut_emoji('refuse') == '❌'
+        assert get_statut_emoji('accepte') == ''
+        assert get_statut_emoji('refuse') == ''
 
     def test_get_statut_emoji_inconnu(self):
         """Un statut inconnu retourne l'emoji par défaut."""
-        assert get_statut_emoji('inexistant') == '⏳'
+        assert get_statut_emoji('inexistant') == ''
 
     def test_get_statut_color_connu(self):
         assert get_statut_color('accepte') == '#27ae60'

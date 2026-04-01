@@ -214,7 +214,7 @@ class InscriptionClientDialog(QDialog):
         self.reg_siret.setPlaceholderText("Ex: 73282932000074 (14 chiffres)")
         self.reg_siret.setMaxLength(20)
         siret_row.addWidget(self.reg_siret)
-        btn_verif = QPushButton("🔍 Vérifier")
+        btn_verif = QPushButton("Vérifier")
         btn_verif.setStyleSheet(S.BTN_PRIMARY)
         btn_verif.clicked.connect(self._verifier_siret)
         siret_row.addWidget(btn_verif)
@@ -231,7 +231,7 @@ class InscriptionClientDialog(QDialog):
         layout.addWidget(group_e)
 
         # --- Contact ---
-        group_c = QGroupBox("👤 Personne de contact")
+        group_c = QGroupBox("Personne de contact")
         form_c = QFormLayout()
         group_c.setLayout(form_c)
 
@@ -257,7 +257,7 @@ class InscriptionClientDialog(QDialog):
         layout.addWidget(group_c)
 
         # --- Bouton ---
-        btn = QPushButton("📝 Créer mon compte")
+        btn = QPushButton("Créer mon compte")
         btn.setStyleSheet(S.BTN_HIGHLIGHT)
         btn.clicked.connect(self._register)
         layout.addWidget(btn)
@@ -459,7 +459,7 @@ class ConnexionVendeurDialog(QDialog):
         self.login_password.setPlaceholderText("Mot de passe")
         form.addRow("Mot de passe:", self.login_password)
 
-        btn = QPushButton("🔑 Se connecter")
+        btn = QPushButton("Se connecter")
         btn.setStyleSheet(S.BTN_DANGER + S.BTN_ACTION)
         btn.clicked.connect(self._login)
         form.addRow(btn)
@@ -508,7 +508,7 @@ class ConnexionVendeurDialog(QDialog):
         self.reg_prenom.setPlaceholderText("Prénom")
         form.addRow("Prénom:", self.reg_prenom)
 
-        btn = QPushButton("📝 Créer le compte")
+        btn = QPushButton("Créer le compte")
         btn.setStyleSheet(S.BTN_HIGHLIGHT)
         btn.clicked.connect(self._register)
         form.addRow(btn)

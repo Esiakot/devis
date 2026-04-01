@@ -21,14 +21,14 @@ class NouvelleAffaireDialog(QDialog):
 
     def __init__(self, parent=None):
         super().__init__(parent)
-        self.setWindowTitle("📁 Nouvelle Affaire")
+        self.setWindowTitle("Nouvelle Affaire")
         self.setMinimumWidth(450)
 
         layout = QVBoxLayout()
         self.setLayout(layout)
 
         # --- Projet ---
-        group_projet = QGroupBox("📋 Projet")
+        group_projet = QGroupBox("Projet")
         form_p = QFormLayout()
         group_projet.setLayout(form_p)
         self.input_titre = QLineEdit()
@@ -64,7 +64,7 @@ class ReponseAcheteurDialog(QDialog):
         self._reponse_widgets = []
         self._auto_adoptes = []
 
-        self.setWindowTitle("✅ Répondre aux propositions du vendeur")
+        self.setWindowTitle("Répondre aux propositions du vendeur")
         self.setMinimumSize(850, 600)
 
         layout = QVBoxLayout()
@@ -75,13 +75,13 @@ class ReponseAcheteurDialog(QDialog):
         self.affaire_cloturee, self.statut_cloture = (
             self.controller.is_affaire_cloturee(affaire_id) if affaire_id else (False, None))
 
-        lbl = QLabel("✅ Accepter ou refuser les propositions du vendeur")
+        lbl = QLabel("Accepter ou refuser les propositions du vendeur")
         lbl.setStyleSheet(S.TITLE_CLIENT)
         layout.addWidget(lbl)
 
         if self.affaire_cloturee:
             txt = STATUT_CLOTURE_LABELS.get(self.statut_cloture, self.statut_cloture)
-            lbl_c = QLabel(f"⚠️ Affaire clôturée ({txt}). Aucune modification possible.")
+            lbl_c = QLabel(f"Affaire clôturée ({txt}). Aucune modification possible.")
             lbl_c.setStyleSheet(S.ALERT_ERROR)
             layout.addWidget(lbl_c)
         else:
@@ -101,12 +101,12 @@ class ReponseAcheteurDialog(QDialog):
 
         # --- Boutons ---
         btns = QHBoxLayout()
-        btn_all = QPushButton("✅ Tout accepter")
+        btn_all = QPushButton("Tout accepter")
         btn_all.setStyleSheet(S.BTN_SUCCESS + S.BTN_ACTION)
         btn_all.clicked.connect(self._tout_accepter)
         btns.addWidget(btn_all)
 
-        btn_save = QPushButton("💾 Valider et créer nouvelle version")
+        btn_save = QPushButton("Valider et créer nouvelle version")
         btn_save.setStyleSheet(S.BTN_PRIMARY + S.BTN_ACTION)
         btn_save.clicked.connect(self._sauvegarder)
         btns.addWidget(btn_save)
@@ -133,7 +133,7 @@ class ReponseAcheteurDialog(QDialog):
             fl = QVBoxLayout()
             frame.setLayout(fl)
 
-            lbl_p = QLabel(f"🔷 {prod['nom']} x{prod['quantite']}")
+            lbl_p = QLabel(f"Produit: {prod['nom']} x{prod['quantite']}")
             lbl_p.setStyleSheet(S.LBL_PRODUCT)
             fl.addWidget(lbl_p)
 
@@ -150,7 +150,7 @@ class ReponseAcheteurDialog(QDialog):
             self.main_layout.addWidget(frame)
 
         if not has_vendeur_response:
-            lbl = QLabel("⏳ Le vendeur n'a pas encore répondu à ce devis.")
+            lbl = QLabel("Le vendeur n'a pas encore répondu à ce devis.")
             lbl.setStyleSheet(S.LBL_WARNING)
             self.main_layout.addWidget(lbl)
 
@@ -163,10 +163,10 @@ class ReponseAcheteurDialog(QDialog):
         row.setLayout(rl)
 
         if type_opt == 'standard':
-            nom = f"📦 {opt['nom']} - Prix catalogue: {opt['prix']} €"
+            nom = f"[Catalogue] {opt['nom']} - Prix catalogue: {opt['prix']} €"
         else:
             prix_txt = f"{opt['prix_demande']} €" if opt['prix_demande'] else "À définir"
-            nom = f"🔧 {opt['description']} - Demandé: {prix_txt}"
+            nom = f"[Perso] {opt['description']} - Demandé: {prix_txt}"
         lbl_nom = QLabel(nom)
         lbl_nom.setStyleSheet(S.LBL_OPTION)
         rl.addWidget(lbl_nom)
@@ -178,12 +178,12 @@ class ReponseAcheteurDialog(QDialog):
         lbl_v.setStyleSheet(S.bold(get_statut_color(sv)))
         vl.addWidget(lbl_v)
         if opt.get('prix_propose'):
-            vl.addWidget(QLabel(f"💰 {opt['prix_propose']} €"))
+            vl.addWidget(QLabel(f"Prix proposé: {opt['prix_propose']} €"))
         poids_v = opt.get('poids', 0) if type_opt == 'perso' else None
         if poids_v and poids_v > 0:
-            vl.addWidget(QLabel(f"⚖️ {poids_v} kg"))
+            vl.addWidget(QLabel(f"Poids: {poids_v} kg"))
         if opt.get('commentaire_vendeur'):
-            vl.addWidget(QLabel(f'💬 "{opt["commentaire_vendeur"]}"'))
+            vl.addWidget(QLabel(f'"{opt["commentaire_vendeur"]}"'))
         vl.addStretch()
         rl.addLayout(vl)
 
@@ -207,9 +207,9 @@ class ReponseAcheteurDialog(QDialog):
             })
         else:
             # Décision non modifiable
-            statut_txt = "✅ ADOPTÉ" if sv == 'accepte' else "❌ REFUSÉ"
+            statut_txt = "ADOPTÉ" if sv == 'accepte' else "REFUSÉ"
             color = "#27ae60" if sv == 'accepte' else "#e74c3c"
-            lbl_f = QLabel(f"→ Décision vendeur: {statut_txt} (non modifiable)")
+            lbl_f = QLabel(f"Décision vendeur: {statut_txt} (non modifiable)")
             lbl_f.setStyleSheet(S.italic(color))
             rl.addWidget(lbl_f)
             self._auto_adoptes.append({'type': type_opt, 'id': opt['id']})
@@ -235,7 +235,7 @@ class ReponseAcheteurDialog(QDialog):
             msg = (f"Toutes les options ont été traitées.\n"
                    f"L'affaire a été clôturée avec succès !\n\n"
                    f"Devis final: V{result.get('final_version')}\n\nMerci pour votre confiance.")
-            QMessageBox.information(self, "🎉 Affaire Conclue", msg)
+            QMessageBox.information(self, "Affaire Conclue", msg)
             fid = result.get('final_id')
             if fid:
                 from src.views.dialogs import DetailDevisDialog

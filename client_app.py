@@ -35,7 +35,7 @@ class ClientWindow(BaseAffaireWindow):
         self.client_info = client_info
         self.AUTEUR = f"{client_info['prenom']} {client_info['nom']}"
 
-        self.setWindowTitle("🛒 CLIENT - Configurateur de Devis")
+        self.setWindowTitle("CLIENT - Configurateur de Devis")
         self.setGeometry(50, 50, 1100, 750)
 
         central = QWidget()
@@ -46,20 +46,20 @@ class ClientWindow(BaseAffaireWindow):
         # ─── Barre du haut : info compte + déconnexion ───────────
         top_bar = QHBoxLayout()
 
-        header = QLabel("🛒 INTERFACE CLIENT")
+        header = QLabel("INTERFACE CLIENT")
         header.setStyleSheet(S.HEADER_CLIENT)
         top_bar.addWidget(header)
 
         top_bar.addStretch()
 
         info_lbl = QLabel(
-            f"👤 {client_info['prenom']} {client_info['nom']}  •  "
-            f"🏢 {client_info.get('societe', '')}  •  "
+            f"{client_info['prenom']} {client_info['nom']}  |  "
+            f"{client_info.get('societe', '')}  |  "
             f"SIRET: {client_info.get('siret', '')}")
         info_lbl.setStyleSheet("color: #b2bec3; font-size: 12px;")
         top_bar.addWidget(info_lbl)
 
-        btn_logout = QPushButton("🚪 Déconnexion")
+        btn_logout = QPushButton("Déconnexion")
         btn_logout.setStyleSheet(
             "background-color: #636e72; color: white; padding: 6px 12px; border-radius: 4px;")
         btn_logout.clicked.connect(self._deconnexion)
@@ -72,9 +72,9 @@ class ClientWindow(BaseAffaireWindow):
 
         self.devis_form = DevisFormWidget(self.controller, self._soumettre_devis)
 
-        self.tabs.addTab(self._build_tab_affaires(), "📁 Mes Affaires")
-        self.tabs.addTab(self._build_tab_detail(), "📋 Détail Affaire")
-        self.tabs.addTab(self.devis_form, "➕ Nouveau Devis")
+        self.tabs.addTab(self._build_tab_affaires(), "Mes Affaires")
+        self.tabs.addTab(self._build_tab_detail(), "Détail Affaire")
+        self.tabs.addTab(self.devis_form, "Nouveau Devis")
 
         self.charger_affaires()
         self._start_auto_refresh()
@@ -99,7 +99,7 @@ class ClientWindow(BaseAffaireWindow):
         layout = QVBoxLayout()
         tab.setLayout(layout)
 
-        btn_new = QPushButton("📁 Nouvelle Affaire")
+        btn_new = QPushButton("Nouvelle Affaire")
         btn_new.setStyleSheet(S.BTN_HIGHLIGHT)
         btn_new.clicked.connect(self._nouvelle_affaire)
         layout.addWidget(btn_new)
@@ -108,7 +108,7 @@ class ClientWindow(BaseAffaireWindow):
             ["N° Affaire", "Client", "Titre", "Date"])
         layout.addWidget(self.table_affaires)
 
-        btn_open = QPushButton("📂 Ouvrir l'affaire sélectionnée")
+        btn_open = QPushButton("Ouvrir l'affaire sélectionnée")
         btn_open.clicked.connect(self._ouvrir_affaire)
         layout.addWidget(btn_open)
         return tab
@@ -123,11 +123,11 @@ class ClientWindow(BaseAffaireWindow):
         layout.addWidget(self.lbl_affaire_titre)
 
         splitter, left_layout = self._build_detail_splitter([
-            ("👁️ Voir détail", None, self._voir_detail),
-            ("✅ Répondre au vendeur", S.BTN_SUCCESS, self._repondre_vendeur),
-            ("📄 Générer PDF", S.BTN_PRIMARY, self._generer_pdf),
+            ("Voir détail", None, self._voir_detail),
+            ("Répondre au vendeur", S.BTN_SUCCESS, self._repondre_vendeur),
+            ("Générer PDF", S.BTN_PRIMARY, self._generer_pdf),
         ])
-        btn_nouveau = QPushButton("➕ Nouveau devis")
+        btn_nouveau = QPushButton("Nouveau devis")
         btn_nouveau.setStyleSheet(S.BTN_ACCENT)
         btn_nouveau.clicked.connect(lambda: self.tabs.setCurrentIndex(2))
         left_layout.addWidget(btn_nouveau)
@@ -137,7 +137,7 @@ class ClientWindow(BaseAffaireWindow):
 
     # ─── Hooks base class ─────────────────────────────────────────
     def _on_affaire_opened(self, extras):
-        self.lbl_affaire_titre.setText(f"📁 {extras['numero']} - {extras['titre']}")
+        self.lbl_affaire_titre.setText(f"{extras['numero']} - {extras['titre']}")
         self.devis_form.lbl_ref.setText(f"Affaire: {extras['numero']}")
 
     # ─── Actions ──────────────────────────────────────────────────

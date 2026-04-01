@@ -20,7 +20,7 @@ class ClotureAffaireDialog(QDialog):
 
     def __init__(self, affaire_info, parent=None):
         super().__init__(parent)
-        self.setWindowTitle("🏁 Clôturer l'affaire")
+        self.setWindowTitle("Clôturer l'affaire")
         self.setMinimumWidth(400)
 
         layout = QVBoxLayout()
@@ -37,17 +37,17 @@ class ClotureAffaireDialog(QDialog):
 
         self.btn_group = QButtonGroup()
 
-        self.radio_gagne = QRadioButton("✅ GAGNÉ - Le client a accepté")
+        self.radio_gagne = QRadioButton("GAGNÉ - Le client a accepté")
         self.radio_gagne.setStyleSheet(S.bold("#27ae60"))
         self.btn_group.addButton(self.radio_gagne)
         gl.addWidget(self.radio_gagne)
 
-        self.radio_perdu = QRadioButton("❌ PERDU - Le client a refusé")
+        self.radio_perdu = QRadioButton("PERDU - Le client a refusé")
         self.radio_perdu.setStyleSheet(S.bold("#e74c3c"))
         self.btn_group.addButton(self.radio_perdu)
         gl.addWidget(self.radio_perdu)
 
-        self.radio_annule = QRadioButton("⚪ ANNULÉ - Affaire sans suite")
+        self.radio_annule = QRadioButton("ANNULÉ - Affaire sans suite")
         self.radio_annule.setStyleSheet(S.bold("#95a5a6"))
         self.btn_group.addButton(self.radio_annule)
         gl.addWidget(self.radio_annule)
@@ -104,19 +104,19 @@ class ReponseVendeurDialog(QDialog):
         self.affaire_cloturee, self.statut_cloture = (
             self.controller.is_affaire_cloturee(affaire_id) if affaire_id else (False, None))
 
-        self.setWindowTitle(f"📝 Répondre au devis {numero}-{version}")
+        self.setWindowTitle(f"Répondre au devis {numero}-{version}")
         self.setMinimumSize(850, 600)
 
         layout = QVBoxLayout()
         self.setLayout(layout)
 
-        lbl = QLabel("📝 Évaluer et répondre aux demandes du client")
+        lbl = QLabel("Évaluer et répondre aux demandes du client")
         lbl.setStyleSheet(S.TITLE_VENDEUR)
         layout.addWidget(lbl)
 
         if self.affaire_cloturee:
             txt = STATUT_CLOTURE_LABELS.get(self.statut_cloture, self.statut_cloture)
-            lbl_c = QLabel(f"⚠️ Affaire clôturée ({txt}). Aucune modification possible.")
+            lbl_c = QLabel(f"Affaire clôturée ({txt}). Aucune modification possible.")
             lbl_c.setStyleSheet(S.ALERT_ERROR)
             layout.addWidget(lbl_c)
         else:
@@ -136,12 +136,12 @@ class ReponseVendeurDialog(QDialog):
 
         # --- Boutons ---
         btns = QHBoxLayout()
-        btn_all = QPushButton("✅ Tout accepter")
+        btn_all = QPushButton("Tout accepter")
         btn_all.setStyleSheet(S.BTN_SUCCESS + S.BTN_ACTION)
         btn_all.clicked.connect(self._tout_accepter)
         btns.addWidget(btn_all)
 
-        btn_save = QPushButton("💾 Valider et créer nouvelle version")
+        btn_save = QPushButton("Valider et créer nouvelle version")
         btn_save.setStyleSheet(S.BTN_DANGER + S.BTN_ACTION)
         btn_save.clicked.connect(self._sauvegarder)
         btns.addWidget(btn_save)
@@ -167,17 +167,17 @@ class ReponseVendeurDialog(QDialog):
             fl = QVBoxLayout()
             frame.setLayout(fl)
 
-            lbl = QLabel(f"🔷 {prod['nom']} x{prod['quantite']} - {prod['prix_unitaire']} €/u")
+            lbl = QLabel(f"Produit: {prod['nom']} x{prod['quantite']} - {prod['prix_unitaire']} €/u")
             lbl.setStyleSheet(S.LBL_PRODUCT)
             fl.addWidget(lbl)
 
             if prod['options_standard']:
-                fl.addWidget(QLabel("📦 Options catalogue demandées:"))
+                fl.addWidget(QLabel("Options catalogue demandées:"))
                 for opt in prod['options_standard']:
                     self._ajouter_ligne(fl, opt, 'standard')
 
             if prod['options_perso']:
-                fl.addWidget(QLabel("🔧 Demandes spéciales:"))
+                fl.addWidget(QLabel("Demandes spéciales:"))
                 for opt in prod['options_perso']:
                     self._ajouter_ligne(fl, opt, 'perso')
 
@@ -210,7 +210,7 @@ class ReponseVendeurDialog(QDialog):
 
         # Option finalisée par le client
         if sa == 'refuse':
-            lbl_f = QLabel("→ Le client a refusé cette option. Décision FINALE (non modifiable)")
+            lbl_f = QLabel("Le client a refusé cette option. Décision FINALE (non modifiable)")
             lbl_f.setStyleSheet(S.bold_italic("#e74c3c"))
             rl.addWidget(lbl_f)
             self._options_finalisees.append({'type': type_opt, 'id': opt['id'], 'statut': 'refuse'})
@@ -218,7 +218,7 @@ class ReponseVendeurDialog(QDialog):
             return
 
         if sa == 'accepte':
-            lbl_f = QLabel("→ Le client a accepté cette option. Décision FINALE (non modifiable)")
+            lbl_f = QLabel("Le client a accepté cette option. Décision FINALE (non modifiable)")
             lbl_f.setStyleSheet(S.bold_italic("#27ae60"))
             rl.addWidget(lbl_f)
             self._options_finalisees.append({'type': type_opt, 'id': opt['id'], 'statut': 'accepte'})
@@ -256,7 +256,7 @@ class ReponseVendeurDialog(QDialog):
 
         spin_poids = None
         if type_opt == 'perso':
-            resp.addWidget(QLabel("⚖️ Poids:"))
+            resp.addWidget(QLabel("Poids:"))
             spin_poids = QDoubleSpinBox()
             spin_poids.setMaximum(9999)
             spin_poids.setDecimals(1)

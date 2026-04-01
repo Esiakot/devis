@@ -43,11 +43,11 @@ class AffaireRepository:
             """, (numero, client_id, titre, description))
             affaire_id = cursor.lastrowid
             conn.commit()
-            print(f"✅ Affaire N°{numero} créée.")
+            print(f"Affaire N°{numero} créée.")
             return affaire_id, numero
         except Exception as e:
             conn.rollback()
-            print(f"❌ Erreur création affaire : {e}")
+            print(f"Erreur création affaire : {e}")
             return None, None
         finally:
             conn.close()
@@ -96,11 +96,11 @@ class AffaireRepository:
                     VALUES (?, 'SYSTÈME', 'vendeur', ?)
                 """, (affaire_id, f"[CLÔTURE - {resultat.upper()}] {commentaire}"))
             conn.commit()
-            print(f"✅ Affaire clôturée: {resultat}")
+            print(f"Affaire clôturée: {resultat}")
             return True
         except Exception as e:
             conn.rollback()
-            print(f"❌ Erreur clôture affaire : {e}")
+            print(f"Erreur clôture affaire : {e}")
             return False
         finally:
             conn.close()
@@ -218,7 +218,7 @@ class AffaireRepository:
             return cursor.lastrowid
         except Exception as e:
             conn.rollback()
-            print(f"❌ Erreur ajout commentaire : {e}")
+            print(f"Erreur ajout commentaire : {e}")
             return None
         finally:
             conn.close()

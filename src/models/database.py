@@ -173,7 +173,7 @@ class Database:
         conn.commit()
         conn.close()
         self._migrate_schema()
-        print("✅ Base de données vérifiée.")
+        print("Base de données vérifiée.")
 
     # ──────────────────────────────────────────────────────────────
     # Migration progressive (colonnes manquantes)
@@ -213,7 +213,7 @@ class Database:
 
         cursor.execute("SELECT count(*) FROM produit")
         if cursor.fetchone()[0] == 0:
-            print("⚠️ Ajout des données de démonstration...")
+            print("Ajout des données de démonstration...")
 
             produits = [
                 ("Bras Robotique 6 axes", 50.0, 25000.0),
@@ -303,6 +303,6 @@ class Database:
                 VALUES (?, ?, ?, ?)
             """, ("admin", hash_password("admin"), "Administrateur", "Système"))
             conn.commit()
-            print("⚠️ Compte vendeur par défaut créé (admin/admin).")
+            print("Compte vendeur par défaut créé (admin/admin).")
 
         conn.close()
